@@ -19,7 +19,10 @@ class CategoryController extends Controller
     //  api crud laravel
     public function index()
     {
-
+        return response()->json([
+            'status' => 'success',
+            'categories' => Category::all()
+        ], 200);
     }
 
     /**
@@ -27,7 +30,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-
+        return response()->json([
+            'status' => true,
+            'message' => 'Category created successfully'
+        ], 201);
 
     }
     
