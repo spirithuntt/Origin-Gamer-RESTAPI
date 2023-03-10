@@ -12,7 +12,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'status' => 'success',
+            'products' => Product::all()
+        ], 200);
     }
 
     /**
@@ -28,7 +31,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = Product::create($request->all());
+        return response()->json([
+            'status' => 'success',
+            'product' => $product
+        ], 200);
     }
 
     /**
@@ -36,7 +43,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return response()->json([
+            'status' => 'success',
+            'product' => $product
+        ], 200);
     }
 
     /**
@@ -52,7 +62,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->update($request->all());
+        return response()->json([
+            'status' => 'success',
+            'product' => $product
+        ], 200);
     }
 
     /**
@@ -60,6 +74,17 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if (!$product) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Product not found'
+            ], 404);
+        }
+        $product->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product deleted successfully'
+        ], 200);
+
     }
 }
