@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+
 class ProductController extends Controller
 {
     /**
@@ -73,18 +74,16 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product)
-    {
-        if (!$product) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Product not found'
-            ], 404);
-        }
-        $product->delete();
+{
+    if(!$product->delete()) {
         return response()->json([
-            'status' => 'success',
-            'message' => 'Product deleted successfully'
-        ], 200);
-
+            'status' => 'error',
+            'message' => 'Product could not be deleted'
+        ], 500);
     }
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Product deleted successfully'
+    ], 200);
+}
 }

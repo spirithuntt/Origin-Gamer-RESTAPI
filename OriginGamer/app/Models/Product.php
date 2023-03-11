@@ -8,9 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    // Define the fillable attributes for mass assignment
-    protected $fillable =  ['title', 'description', 'price', 'content', 'category_id'];
-    // Define the relationship with the Category model
+    protected $fillable = [
+        'title',
+        'description',
+        'price',
+        'content',
+        'category_id',
+    ];
+    //relationships
     public function category()
     {
         return $this->belongsTo(Category::class);
