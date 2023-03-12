@@ -49,6 +49,14 @@ class ProductController extends Controller
             'product' => $product
         ], 200);
     }
+    public function filterByCategory($category_id)
+    {
+        $products = Product::where('category_id', $category_id)->get();
+        return response()->json([
+            'status' => 'success',
+            'products' => $products
+        ], 200);
+    }
 
     /**
      * Show the form for editing the specified resource.

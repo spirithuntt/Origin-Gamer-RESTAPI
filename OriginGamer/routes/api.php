@@ -36,6 +36,9 @@ Route::controller(AuthController::class)->group(function () {
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 
+// filter product by category
+Route::get('products/category/{category_id}', [ProductController::class, 'filterByCategory']);
+
 // endpoints for user ['get all users', 'get specific user', 'update information's' , 'delete account']
 // second line (37) : this endpoint for update password
 Route::apiResource('user', UserController::class)->except(['store']);
