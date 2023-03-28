@@ -13,10 +13,16 @@ class ProductController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->hasPermissionTo('view product') == false){
+            return response()->json(['message' => 'You are not authorized to view products'], 403);
+        }
+        else 
+        {
         return response()->json([
             'status' => 'success',
             'products' => Product::all()
         ], 200);
+    }
     }
 
     /**
@@ -32,22 +38,34 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        if(auth()->user()->hasPermissionTo('create product') == false){
+            return response()->json(['message' => 'You are not authorized to create products'], 403);
+        }
+        else 
+        {
         $product = Product::create($request->all());
         return response()->json([
             'status' => 'success',
             'product' => $product
         ], 200);
     }
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($product)
     {
+        if(auth()->user()->hasPermissionTo('view product') == false){
+            return response()->json(['message' => 'You are not authorized to view products'], 403);
+        }
+        else 
+        {
         return response()->json([
             'status' => 'success',
-            'product' => $product
+            'product' => Product::find($product)
         ], 200);
+    }
     }
     public function filterByCategory($category_id)
     {
@@ -71,18 +89,29 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        if(auth()->user()->hasPermissionTo('update product') == false){
+            return response()->json(['message' => 'You are not authorized to edit products'], 403);
+        }
+        else 
+        {
         $product->update($request->all());
         return response()->json([
             'status' => 'success',
             'product' => $product
         ], 200);
     }
+}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product)
 {
+    if(auth()->user()->hasPermissionTo('delete product') == false){
+        return response()->json(['message' => 'You are not authorized to delete products'], 403);
+    }
+    else 
+    {
     if(!$product->delete()) {
         return response()->json([
             'status' => 'error',
@@ -93,5 +122,6 @@ class ProductController extends Controller
         'status' => 'success',
         'message' => 'Product deleted successfully'
     ], 200);
+}
 }
 }
