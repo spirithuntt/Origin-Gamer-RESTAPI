@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api');
-    // }
 
     /**
      * Display a listing of the resource.
@@ -20,6 +16,11 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
+        if(auth()->user()->hasPermissionTo('show users') == false){
+            return response()->json(['message' => 'You are not authorized to view users'], 403);
+        }
+        else 
+        {
         $users = User::all();
 
         return response()->json([
@@ -27,6 +28,7 @@ class UserController extends Controller
             'length' => count($users),
             'data' => $users,
         ]);
+    }
     }
 
     /**
@@ -58,6 +60,11 @@ class UserController extends Controller
      */
     public function show(int $id): JsonResponse
     {
+        if(auth()->user()->hasPermissionTo('show user') == false){
+            return response()->json(['message' => 'You are not authorized to view users'], 403);
+        }
+        else 
+        {
         $user = User::find($id);
 
         if(!$user){
@@ -71,6 +78,7 @@ class UserController extends Controller
             'status' => 'success',
             'data' => $user,
         ]);
+    }
     }
 
     /**
@@ -93,6 +101,11 @@ class UserController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
+        if(auth()->user()->hasPermissionTo('update user') == false){
+            return response()->json(['message' => 'You are not authorized to edit users'], 403);
+        }
+        else 
+        {
         $user = User::find($id);
 
         if(!$user){
@@ -110,6 +123,7 @@ class UserController extends Controller
             'data' => $user,
         ]);
     }
+    }
 
 
     /**
@@ -121,6 +135,11 @@ class UserController extends Controller
      */
     public function update_password(Request $request, int $id): JsonResponse
     {
+        if(auth()->user()->hasPermissionTo('edit users') == false){
+            return response()->json(['message' => 'You are not authorized to edit users'], 403);
+        }
+        else 
+        {
         $user = User::find($id);
 
         if (!$user) {
@@ -144,6 +163,7 @@ class UserController extends Controller
             ], 406);
         }
     }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -153,6 +173,11 @@ class UserController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
+        if(auth()->user()->hasPermissionTo('delete user') == false){
+            return response()->json(['message' => 'You are not authorized to delete users'], 403);
+        }
+        else 
+        {
         $user = User::find($id);
 
         if(!$user){
@@ -169,5 +194,6 @@ class UserController extends Controller
             'message' => 'Successfully delete user',
             'data' => $user,
         ]);
+    }
     }
 }
